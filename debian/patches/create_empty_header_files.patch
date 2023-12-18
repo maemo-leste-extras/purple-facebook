@@ -1,0 +1,19 @@
+Index: purple-facebook/Makefile.am
+===================================================================
+--- purple-facebook.orig/Makefile.am
++++ purple-facebook/Makefile.am
+@@ -1,6 +1,14 @@
+ ACLOCAL_AMFLAGS = -Im4
+ SUBDIRS = pidgin/libpurple/protocols/facebook
+ 
++MANIFEST_VOIDS := MANIFEST_VOIDS
++BUILT_SOURCES= $(shell cat $(MANIFEST_VOIDS))
++
++$(BUILT_SOURCES):
++	touch $@
++
++CLEANFILES = $(BUILT_SOURCES)
++
+ EXTRA_DIST = \
+ 	autogen.sh \
+ 	debian \
