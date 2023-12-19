@@ -1,0 +1,19 @@
+Index: purple-facebook/pidgin/libpurple/protocols/facebook/facebook.c
+===================================================================
+--- purple-facebook.orig/pidgin/libpurple/protocols/facebook/facebook.c
++++ purple-facebook/pidgin/libpurple/protocols/facebook/facebook.c
+@@ -1634,6 +1634,14 @@ purple_init_plugin(PurplePlugin *plugin)
+ 
+ 	pinfo.options = OPT_PROTO_CHAT_TOPIC;
+ 	pinfo.list_icon = fb_list_icon;
++	pinfo.icon_spec.format = "png,jpg";
++	pinfo.icon_spec.min_width = 0;
++	pinfo.icon_spec.min_height = 0;
++	pinfo.icon_spec.max_width = 128;
++	pinfo.icon_spec.max_height = 128;
++	pinfo.icon_spec.max_filesize = 10000;
++	pinfo.icon_spec.scale_rules = PURPLE_ICON_SCALE_DISPLAY;
++	pinfo.list_icon = fb_list_icon;
+ 	pinfo.tooltip_text = fb_client_tooltip_text;
+ 	pinfo.status_types = fb_status_types;
+ 	pinfo.blist_node_menu = fb_client_blist_node_menu;
