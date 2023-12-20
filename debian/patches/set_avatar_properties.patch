@@ -2,18 +2,69 @@ Index: purple-facebook/pidgin/libpurple/protocols/facebook/facebook.c
 ===================================================================
 --- purple-facebook.orig/pidgin/libpurple/protocols/facebook/facebook.c
 +++ purple-facebook/pidgin/libpurple/protocols/facebook/facebook.c
-@@ -1634,6 +1634,14 @@ purple_init_plugin(PurplePlugin *plugin)
+@@ -1634,6 +1634,13 @@ purple_init_plugin(PurplePlugin *plugin)
  
  	pinfo.options = OPT_PROTO_CHAT_TOPIC;
  	pinfo.list_icon = fb_list_icon;
-+	pinfo.icon_spec.format = "png,jpg";
++	pinfo.icon_spec.format = "jpg";
 +	pinfo.icon_spec.min_width = 0;
 +	pinfo.icon_spec.min_height = 0;
-+	pinfo.icon_spec.max_width = 128;
-+	pinfo.icon_spec.max_height = 128;
-+	pinfo.icon_spec.max_filesize = 10000;
++	pinfo.icon_spec.max_width = 256;
++	pinfo.icon_spec.max_height = 256;
++	pinfo.icon_spec.max_filesize = 65536;
 +	pinfo.icon_spec.scale_rules = PURPLE_ICON_SCALE_DISPLAY;
-+	pinfo.list_icon = fb_list_icon;
  	pinfo.tooltip_text = fb_client_tooltip_text;
  	pinfo.status_types = fb_status_types;
  	pinfo.blist_node_menu = fb_client_blist_node_menu;
+Index: purple-facebook/pidgin/libpurple/protocols/facebook/api.c
+===================================================================
+--- purple-facebook.orig/pidgin/libpurple/protocols/facebook/api.c
++++ purple-facebook/pidgin/libpurple/protocols/facebook/api.c
+@@ -2281,6 +2281,9 @@ fb_api_contact(FbApi *api, FbId uid)
+ 	fb_json_bldr_arr_end(bldr);
+ 
+ 	fb_json_bldr_add_str(bldr, "1", "true");
++	fb_json_bldr_add_str(bldr, "2", "256");
++	fb_json_bldr_add_str(bldr, "3", "128");
++	fb_json_bldr_add_str(bldr, "4", "64");
+ 	fb_api_http_query(api, FB_API_QUERY_CONTACT, bldr, fb_api_cb_contact);
+ }
+ 
+@@ -2329,7 +2332,6 @@ fb_api_cb_contacts_nodes(FbApi *api, Jso
+ 		user->uid = uid;
+ 		user->name = fb_json_values_next_str_dup(values, NULL);
+ 		user->icon = fb_json_values_next_str_dup(values, NULL);
+-
+ 		user->csum = fb_api_user_icon_checksum(user->icon);
+ 
+ 		users = g_slist_prepend(users, user);
+@@ -2485,6 +2487,9 @@ fb_api_contacts(FbApi *api)
+ 	fb_json_bldr_arr_end(bldr);
+ 
+ 	fb_json_bldr_add_str(bldr, "1", G_STRINGIFY(FB_API_CONTACTS_COUNT));
++	fb_json_bldr_add_str(bldr, "2", "128");
++	fb_json_bldr_add_str(bldr, "3", "256");
++	fb_json_bldr_add_str(bldr, "4", "64");
+ 	fb_api_http_query(api, FB_API_QUERY_CONTACTS, bldr,
+ 	                  fb_api_cb_contacts);
+ }
+@@ -2501,6 +2506,9 @@ fb_api_contacts_after(FbApi *api, const
+ 
+ 	fb_json_bldr_add_str(bldr, "1", cursor);
+ 	fb_json_bldr_add_str(bldr, "2", G_STRINGIFY(FB_API_CONTACTS_COUNT));
++	fb_json_bldr_add_str(bldr, "3", "128");
++	fb_json_bldr_add_str(bldr, "4", "256");
++	fb_json_bldr_add_str(bldr, "5", "64");
+ 	fb_api_http_query(api, FB_API_QUERY_CONTACTS_AFTER, bldr,
+ 	                  fb_api_cb_contacts);
+ }
+@@ -2519,6 +2527,9 @@ fb_api_contacts_delta(FbApi *api, const
+ 	fb_json_bldr_arr_end(bldr);
+ 
+ 	fb_json_bldr_add_str(bldr, "2", G_STRINGIFY(FB_API_CONTACTS_COUNT));
++	fb_json_bldr_add_str(bldr, "3", "128");
++	fb_json_bldr_add_str(bldr, "4", "256");
++	fb_json_bldr_add_str(bldr, "5", "64");
+ 	fb_api_http_query(api, FB_API_QUERY_CONTACTS_DELTA, bldr,
+ 	                  fb_api_cb_contacts);
+ }
