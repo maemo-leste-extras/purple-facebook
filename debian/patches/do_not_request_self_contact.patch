@@ -1,0 +1,23 @@
+Index: purple-facebook/pidgin/libpurple/protocols/facebook/facebook.c
+===================================================================
+--- purple-facebook.orig/pidgin/libpurple/protocols/facebook/facebook.c
++++ purple-facebook/pidgin/libpurple/protocols/facebook/facebook.c
+@@ -541,15 +541,15 @@ fb_cb_api_messages(FbApi *api, GSList *m
+ 		msg = l->data;
+ 		FB_ID_TO_STR(msg->uid, uid);
+ 
+-		if (purple_blist_find_buddy(acct, uid) == NULL) {
++		isself = (msg->flags & FB_API_MESSAGE_FLAG_SELF) != 0;
++
++		if (!isself && purple_blist_find_buddy(acct, uid) == NULL) {
+ 			msg = fb_api_message_dup(msg, TRUE);
+ 			fb_data_add_message(fata, msg);
+ 			fb_api_contact(api, msg->uid);
+ 			continue;
+ 		}
+ 
+-		isself = (msg->flags & FB_API_MESSAGE_FLAG_SELF) != 0;
+-
+ 		if (isself && !self) {
+ 			continue;
+ 		}

@@ -1,3 +1,4 @@
 0001-add-pidgin-source-files-needed-for-the-build.patch
 create_empty_header_files.patch
 set_avatar_properties.patch
+do_not_request_self_contact.patch
