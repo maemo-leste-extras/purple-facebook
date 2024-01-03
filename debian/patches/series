@@ -2,3 +2,4 @@
 create_empty_header_files.patch
 set_avatar_properties.patch
 do_not_request_self_contact.patch
+set_remote_send_flag.patch

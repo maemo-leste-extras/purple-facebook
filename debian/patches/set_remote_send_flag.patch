@@ -1,0 +1,15 @@
+Index: purple-facebook/pidgin/libpurple/protocols/facebook/facebook.c
+===================================================================
+--- purple-facebook.orig/pidgin/libpurple/protocols/facebook/facebook.c
++++ purple-facebook/pidgin/libpurple/protocols/facebook/facebook.c
+@@ -554,7 +554,9 @@ fb_cb_api_messages(FbApi *api, GSList *m
+ 			continue;
+ 		}
+ 
+-		flags = isself ? PURPLE_MESSAGE_SEND : PURPLE_MESSAGE_RECV;
++		flags = isself
++			? PURPLE_MESSAGE_SEND | PURPLE_MESSAGE_REMOTE_SEND
++			: PURPLE_MESSAGE_RECV;
+ 		tstamp = msg->tstamp / 1000;
+ 
+ 		if (msg->flags & FB_API_MESSAGE_FLAG_IMAGE) {
