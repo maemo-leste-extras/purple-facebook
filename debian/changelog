@@ -1,3 +1,9 @@
+purple-facebook (0.9.6-2) unstable; urgency=medium
+
+  * Fix message id race
+
+ -- Ivaylo Dimitrov <ivo.g.dimitrov.75@gmail.com>  Sat, 01 Jun 2024 14:19:31 +0300
+
 purple-facebook (0.9.6-1) unstable; urgency=medium
 
   * Initial leste port.
