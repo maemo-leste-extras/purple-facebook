@@ -1,0 +1,30 @@
+Index: purple-facebook/pidgin/libpurple/protocols/facebook/api.c
+===================================================================
+--- purple-facebook.orig/pidgin/libpurple/protocols/facebook/api.c
++++ purple-facebook/pidgin/libpurple/protocols/facebook/api.c
+@@ -68,6 +68,7 @@ struct _FbApiPrivate
+ 	gboolean invisible;
+ 	guint unread;
+ 	FbId lastmid;
++	FbId lastsid;
+ 	gchar *contacts_delta;
+ };
+ 
+@@ -1674,7 +1675,7 @@ fb_api_cb_publish_ms_new_message(FbApi *
+ 		id = fb_json_values_next_int(values, 0);
+ 
+ 		/* Ignore everything but new messages */
+-		if (id == 0) {
++		if (id == 0 || id == priv->lastsid) {
+ 			goto beach;
+ 		}
+ 
+@@ -2568,7 +2569,7 @@ fb_api_message_send(FbApi *api, FbApiMes
+ 	JsonBuilder *bldr;
+ 
+ 	mid = FB_API_MSGID(g_get_real_time() / 1000, g_random_int());
+-	priv->lastmid = mid;
++	priv->lastsid = mid;
+ 
+ 	if (msg->tid != 0) {
+ 		tpfx = "tfbid_";
