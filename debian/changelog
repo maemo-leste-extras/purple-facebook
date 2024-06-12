@@ -1,3 +1,9 @@
+purple-facebook (0.9.6-3) unstable; urgency=medium
+
+  * Mark unread messages as PURPLE_MESSAGE_DELAYED
+
+ -- Ivaylo Dimitrov <ivo.g.dimitrov.75@gmail.com>  Wed, 12 Jun 2024 13:41:38 +0300
+
 purple-facebook (0.9.6-2) unstable; urgency=medium
 
   * Fix message id race
