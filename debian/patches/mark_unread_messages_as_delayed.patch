@@ -1,0 +1,41 @@
+Index: purple-facebook/pidgin/libpurple/protocols/facebook/api.c
+===================================================================
+--- purple-facebook.orig/pidgin/libpurple/protocols/facebook/api.c
++++ purple-facebook/pidgin/libpurple/protocols/facebook/api.c
+@@ -2777,6 +2777,7 @@ fb_api_cb_unread_msgs(PurpleHttpConnecti
+ 		fb_api_message_reset(&msg, FALSE);
+ 		msg.uid = FB_ID_FROM_STR(str);
+ 		msg.tid = tid;
++		msg.flags |= FB_API_MESSAGE_FLAG_SCROLLBACK;
+ 
+ 		str = fb_json_values_next_str(values, "0");
+ 		msg.tstamp = g_ascii_strtoll(str, NULL, 10);
+Index: purple-facebook/pidgin/libpurple/protocols/facebook/api.h
+===================================================================
+--- purple-facebook.orig/pidgin/libpurple/protocols/facebook/api.h
++++ purple-facebook/pidgin/libpurple/protocols/facebook/api.h
+@@ -442,7 +442,8 @@ typedef enum
+ {
+ 	FB_API_MESSAGE_FLAG_DONE = 1 << 0,
+ 	FB_API_MESSAGE_FLAG_IMAGE = 1 << 1,
+-	FB_API_MESSAGE_FLAG_SELF = 1 << 2
++	FB_API_MESSAGE_FLAG_SELF = 1 << 2,
++	FB_API_MESSAGE_FLAG_SCROLLBACK = 1 << 3
+ } FbApiMessageFlags;
+ 
+ /**
+Index: purple-facebook/pidgin/libpurple/protocols/facebook/facebook.c
+===================================================================
+--- purple-facebook.orig/pidgin/libpurple/protocols/facebook/facebook.c
++++ purple-facebook/pidgin/libpurple/protocols/facebook/facebook.c
+@@ -557,6 +557,10 @@ fb_cb_api_messages(FbApi *api, GSList *m
+ 		flags = isself
+ 			? PURPLE_MESSAGE_SEND | PURPLE_MESSAGE_REMOTE_SEND
+ 			: PURPLE_MESSAGE_RECV;
++
++		if (msg->flags & FB_API_MESSAGE_FLAG_SCROLLBACK)
++			flags |= PURPLE_MESSAGE_DELAYED;
++
+ 		tstamp = msg->tstamp / 1000;
+ 
+ 		if (msg->flags & FB_API_MESSAGE_FLAG_IMAGE) {

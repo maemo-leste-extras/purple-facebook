@@ -4,3 +4,4 @@ set_avatar_properties.patch
 do_not_request_self_contact.patch
 set_remote_send_flag.patch
 fix_message_id_race.patch
+mark_unread_messages_as_delayed.patch
